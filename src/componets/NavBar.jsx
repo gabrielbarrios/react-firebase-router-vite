@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
 
-
+/* testing */
 
 const Navbar = () => {
     const { user, setUser } = useContext(UserContext);

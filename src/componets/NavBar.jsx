@@ -5,17 +5,30 @@ import { UserContext } from "../context/UserProvider";
 /* testing */
 
 const Navbar = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { user, signOutUser } = useContext(UserContext);
+    const handleClickLogout = async () => {
+        try {
+            await signOutUser();
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error.code);
+            // Aquí podrías mostrar un mensaje de error al usuario
+        }
+    }
+
     return (
         <>
 
             {user ? (
                 <>
                     <NavLink to="/">Inicio</NavLink>
-                    <button onClick={() => setUser(false)}>Cerrar Sesión</button>
+                    <button onClick={handleClickLogout}>Logout</button>
                 </>
             ) : (
-                <NavLink to="/login">Login</NavLink>
+                <>
+                    <NavLink to="/login">Login | </NavLink>
+                    <NavLink to="/register">Register</NavLink>
+                </>
+
             )}
         </>
     );

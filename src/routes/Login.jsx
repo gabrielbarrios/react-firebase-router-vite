@@ -9,7 +9,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { loginUser } = useContext(UserContext);
+    const { user, loginUser } = useContext(UserContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,9 +17,9 @@ const Login = () => {
         try {
             // Aquí llamas a la función de registro del contexto
             await loginUser(email, password);
-            Navigate('/');
+            //Navigate('/');
         } catch (error) {
-            console.error("Error al registrar:", error);
+            console.error("Error al registrar:", error.code);
             // Aquí podrías mostrar un mensaje de error al usuario
         }
     }

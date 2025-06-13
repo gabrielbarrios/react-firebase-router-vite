@@ -1,6 +1,6 @@
 
 
-import { createContext, use, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { auth, login } from "../config/firebase"; // Importa la configuración de Firebase
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth"; // Importa la función de registro de Firebase
 
@@ -27,19 +27,20 @@ const UserProvider = ({ children }) => {
     }
         , []);
 
-    const registerUser = (email, password) => {
-        createUserWithEmailAndPassword(auth, email, password);
+    const registerUser = ({ email, password }) => {
+        console.log("Registering user with email:" + email + " and password: " + password);
+        return createUserWithEmailAndPassword(auth, email, password);
     }
-    const loginUser = (email, password) => {
+    const loginUser = ({ email, password }) => {
         // Aquí puedes implementar la lógica de inicio de sesión
         // Por ejemplo, usando signInWithEmailAndPassword de Firebase
-        signInWithEmailAndPassword(auth, email, password);
+        return signInWithEmailAndPassword(auth, email, password);
     }
 
     const signOutUser = () => {
         // Aquí puedes implementar la lógica de cierre de sesión
         // Por ejemplo, usando signOut de Firebase
-        signOut(auth);
+        return signOut(auth);
     }
     return (
         <UserContext.Provider value={{ user, setUser, registerUser, loginUser, signOutUser }}>

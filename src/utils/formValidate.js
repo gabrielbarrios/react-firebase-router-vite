@@ -18,8 +18,8 @@ export const formValidate = () => {
             trim: (v) => v.trim() !== '' || 'Password cannot be empty',
             noSpaces: (v) => !/\s/.test(v) || 'Password cannot contain spaces'
         }, 
-        validateEquals: (getValues) => ({
-           equals: (v) => v === getValues('password') || 'The passwords do not match',
+        validateEquals: (value) => ({
+           equals: (v) => v === value || 'The passwords do not match',
         }),
     }
   );

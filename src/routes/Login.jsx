@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { erroresFirebase } from "../utils/erroresFirebase";
 import FormError from "../componets/FormError";
 import FormInput from "../componets/FormInput";
+import Title from "../componets/Title";
+import ButtonSubmit from "../componets/ButtonSubmit";
 
 const Login = () => {
 
@@ -23,16 +25,17 @@ const Login = () => {
             await loginUser({ email, password });
             Navigate('/');
         } catch (error) {
+            const { code, message } = erroresFirebase(error.code);
             console.error("Error al registrar:", error.code);
-            setError('firebase', {
-                message: erroresFirebase(error.code)
+            setError(code, {
+                message: message
             });
         }
     }
 
     return (
         <>
-            <h1>Login</h1>
+            <Title text='Login' />
             <h2>
                 {
                     user ? (
@@ -44,7 +47,6 @@ const Login = () => {
             </h2>
             <FormError error={errors.firebase} />
             <form onSubmit={handleSubmit(onSubmit)}>
-                <label htmlFor="email">Email:</label>
                 <FormInput
                     type='text'
                     placeholder='Ingrese Email'
@@ -52,10 +54,11 @@ const Login = () => {
                         required: required,
                         pattern: patternEmail,
                     })}
+                    label="Ingrese Email"
+                    error={errors.email}
                 >
                     <FormError error={errors.email} />
                 </FormInput>
-                <label htmlFor="password">Password:</label>
                 <FormInput
                     type='password'
                     placeholder='Ingrese Password'
@@ -64,10 +67,12 @@ const Login = () => {
                         minLength: minLength,
                         validate: validateTrim
                     })}
+                    label="Ingrese Password"
+                    error={errors.password}
                 >
                     <FormError error={errors.password} />
                 </FormInput>
-                <button type="submit">Login</button>
+                <ButtonSubmit text='Login' />
             </form>
         </>
     )

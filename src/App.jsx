@@ -6,6 +6,8 @@ import Navbar from "./componets/NavBar"
 import RequireAuth from "./componets/RequireAuth"
 import { useContext } from "react"
 import { UserContext } from "./context/UserProvider"
+import 'flowbite';
+import LayoutContainerForm from "./componets/LayoutContainerForm"
 
 function App() {
 
@@ -31,8 +33,11 @@ function App() {
           </RequireAuth>
 
         } />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path='/' element={<LayoutContainerForm />} >
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
       </Routes>
     </>
   )

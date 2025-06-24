@@ -6,6 +6,8 @@ import { erroresFirebase } from '../utils/erroresFirebase';
 import FormError from '../componets/FormError';
 import { formValidate } from '../utils/formValidate';
 import FormInput from '../componets/FormInput';
+import Title from '../componets/Title';
+import ButtonSubmit from '../componets/ButtonSubmit';
 
 const Register = () => {
 
@@ -26,19 +28,19 @@ const Register = () => {
             await registerUser({ email, password });
             Navigate('/');
         } catch (error) {
+            const { code, message } = erroresFirebase(error.code);
             console.error("Error al registrar:", error.code);
-            setError('firebase', {
-                message: erroresFirebase(error.code)
+            setError(code, {
+                message: message
             });
         }
     }
 
     return (
         <>
-            <h1>Register</h1>
+            <Title text='Register' />
             <FormError error={errors.firebase} />
             <form onSubmit={handleSubmit(onSubmit)}>
-                <label htmlFor="email">Email:</label>
                 {/* Aquí usamos FormInput que es un componente nuestro para los forms */}
                 <FormInput
                     type='text'
@@ -47,11 +49,12 @@ const Register = () => {
                         required: required,
                         pattern: patternEmail,
                     })}
+                    label="Ingresa Email"
+                    error={errors.email}
                 >
                     <FormError error={errors.email} />
                 </FormInput>
 
-                <label htmlFor="password">Password:</label>
                 <FormInput
                     type='password'
                     placeholder='Ingrese Password'
@@ -60,6 +63,8 @@ const Register = () => {
                         minLength: minLength,
                         validate: validateTrim
                     })}
+                    label="Ingresa Password"
+                    error={errors.password}
                 >
                     <FormError error={errors.password} />
                 </FormInput>
@@ -70,13 +75,14 @@ const Register = () => {
                     {...register('repassword', {
                         required: required,
                         minLength: minLength,
-                        validate: validateEquals(getValues)
+                        validate: validateEquals(getValues("password"))
                     })}
+                    label="Ingresa Password de nuevo"
+                    error={errors.repassword}
                 >
                     <FormError error={errors.repassword} />
                 </FormInput>
-
-                <button type="submit">Register</button>
+                <ButtonSubmit text='Register' />
             </form>
         </>
     );

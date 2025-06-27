@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { UserContext } from "../context/UserProvider"
 import { useNavigate } from "react-router-dom"
 import { formValidate } from "../utils/formValidate";
@@ -7,7 +7,7 @@ import { erroresFirebase } from "../utils/erroresFirebase";
 import FormError from "../componets/FormError";
 import FormInput from "../componets/FormInput";
 import Title from "../componets/Title";
-import ButtonSubmit from "../componets/ButtonSubmit";
+import Button from "../componets/Button";
 
 const Login = () => {
 
@@ -15,12 +15,14 @@ const Login = () => {
 
 
     const { user, loginUser } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
     // Importamos las validaciones del formulario
     const { required, patternEmail, minLength, validateTrim } = formValidate();
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
 
     const onSubmit = async ({ email, password }) => {
         try {
+            setLoading(true);
             // Aquí llamas a la función de registro del contexto
             await loginUser({ email, password });
             Navigate('/');
@@ -30,6 +32,8 @@ const Login = () => {
             setError(code, {
                 message: message
             });
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -72,7 +76,10 @@ const Login = () => {
                 >
                     <FormError error={errors.password} />
                 </FormInput>
-                <ButtonSubmit text='Login' />
+
+                <Button type='submit' text='Login' loading={loading} />
+
+
             </form>
         </>
     )

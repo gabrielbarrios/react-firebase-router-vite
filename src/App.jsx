@@ -1,13 +1,18 @@
-import { Routes, Route } from "react-router-dom"
+import { useContext } from "react"
+import { Routes, Route, Router } from "react-router-dom"
+import 'flowbite';
+
 import Login from "./routes/Login"
 import Register from "./routes/Register"
 import Home from "./routes/Home"
+import Perfil from "./routes/Perfil"
+
 import Navbar from "./componets/NavBar"
-import RequireAuth from "./componets/RequireAuth"
-import { useContext } from "react"
+import LayoutRequireAuth from "./componets/layouts/LayoutRequireAuth"
 import { UserContext } from "./context/UserProvider"
-import 'flowbite';
-import LayoutContainerForm from "./componets/LayoutContainerForm"
+import LayoutContainerForm from "./componets/layouts/LayoutContainerForm"
+import NotFound from "./routes/NotFound";
+
 
 function App() {
 
@@ -24,20 +29,20 @@ function App() {
   return (
     <>
       <Navbar />
-      <h1>hello world</h1>
       <Routes>
 
-        <Route path="/" element={
-          <RequireAuth>
-            <Home />
-          </RequireAuth>
+        <Route path='/' element={<LayoutRequireAuth />}>
+          <Route index element={<Home />} />
+          <Route path="/perfil" element={<Perfil />} />
+        </Route>
 
-        } />
+
         <Route path='/' element={<LayoutContainerForm />} >
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
 
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   )

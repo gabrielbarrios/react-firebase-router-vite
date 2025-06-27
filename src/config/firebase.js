@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { getFirestore } from "firebase/firestore/lite";
 //variables de entorno estan localizadas en el archivo .env.local
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,9 +12,10 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth(app);
 
+//initialize Firestore
+export const db = getFirestore(app);
 
 export const login = ({email, password}) => {
   return signInWithEmailAndPassword(auth, email, password);

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../context/UserProvider';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'; // Asegúrate de que este hook esté correctamente implementado
@@ -7,12 +7,13 @@ import FormError from '../componets/FormError';
 import { formValidate } from '../utils/formValidate';
 import FormInput from '../componets/FormInput';
 import Title from '../componets/Title';
-import ButtonSubmit from '../componets/ButtonSubmit';
+import Button from "../componets/Button";
 
 const Register = () => {
 
     const Navigate = useNavigate();
     const { registerUser } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
     // Importamos las validaciones del formulario
     const { required, patternEmail, minLength, validateTrim, validateEquals } = formValidate();
@@ -24,6 +25,7 @@ const Register = () => {
     const { register, handleSubmit, formState: { errors }, getValues, setError } = useForm(); // Asegúrate de que useForm esté correctamente importado
     const onSubmit = async ({ email, password }) => {
         try {
+            setLoading(true);
             // Aquí llamas a la función de registro del contexto
             await registerUser({ email, password });
             Navigate('/');
@@ -33,6 +35,8 @@ const Register = () => {
             setError(code, {
                 message: message
             });
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -82,7 +86,8 @@ const Register = () => {
                 >
                     <FormError error={errors.repassword} />
                 </FormInput>
-                <ButtonSubmit text='Register' />
+                <Button type='submit' text='Register' loading={loading} />
+
             </form>
         </>
     );

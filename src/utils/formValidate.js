@@ -10,6 +10,11 @@ export const formValidate = () => {
             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
             message: 'Invalid email format'
         },
+        patternURL:
+        {
+            value: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
+            message: 'Invalid URL format'
+        },
         minLength:{
             value: 6,
             message: 'Password must be at least 6 characters long'

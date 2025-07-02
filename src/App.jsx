@@ -12,6 +12,7 @@ import LayoutRequireAuth from "./componets/layouts/LayoutRequireAuth"
 import { UserContext } from "./context/UserProvider"
 import LayoutContainerForm from "./componets/layouts/LayoutContainerForm"
 import NotFound from "./routes/NotFound";
+import LayoutRedirect from "./componets/layouts/LayoutRedirect";
 
 
 function App() {
@@ -41,8 +42,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
+        <Route path='/:nanoid' element={<LayoutRedirect />} >
+          <Route index element={<NotFound />} />
+        </Route>
 
-        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   )
